@@ -1,4 +1,4 @@
-package com.example.splash.ui.login;
+package com.example.ekgo.ui.login;
 
 /**
  * Class exposing authenticated user details to the UI.

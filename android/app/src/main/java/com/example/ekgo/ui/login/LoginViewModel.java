@@ -1,4 +1,4 @@
-package com.example.splash.ui.login;
+package com.example.ekgo.ui.login;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.example.splash.data.LoginRepository;
-import com.example.splash.data.Result;
-import com.example.splash.data.model.LoggedInUser;
-import com.example.splash.R;
+import com.example.ekgo.data.LoginRepository;
+import com.example.ekgo.data.Result;
+import com.example.ekgo.data.LoggedInUser;
+import com.example.ekgo.R;
 
 public class LoginViewModel extends ViewModel {
 
@@ -31,7 +31,7 @@ public class LoginViewModel extends ViewModel {
 
     public void login(String username, String password) {
         // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
+        Result<com.example.splash.data.model.LoggedInUser> result = loginRepository.login(username, password);
 
         if (result instanceof Result.Success) {
             LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();

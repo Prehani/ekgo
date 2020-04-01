@@ -1,6 +1,6 @@
-package com.example.splash.data;
+package com.example.ekgo.data;
 
-import com.example.splash.data.model.LoggedInUser;
+import com.example.ekgo.data.LoggedInUser;
 
 import java.io.IOException;
 
@@ -9,7 +9,7 @@ import java.io.IOException;
  */
 public class LoginDataSource {
 
-    public Result<LoggedInUser> login(String username, String password) {
+    public com.example.ekgo.data.Result<LoggedInUser> login(String username, String password) {
 
         try {
             // TODO: handle loggedInUser authentication
@@ -17,9 +17,9 @@ public class LoginDataSource {
                     new LoggedInUser(
                             java.util.UUID.randomUUID().toString(),
                             "Jane Doe");
-            return new Result.Success<>(fakeUser);
+            return new com.example.ekgo.data.Result.Success<>(fakeUser);
         } catch (Exception e) {
-            return new Result.Error(new IOException("Error logging in", e));
+            return new com.example.ekgo.data.Result.Error(new IOException("Error logging in", e));
         }
     }
 

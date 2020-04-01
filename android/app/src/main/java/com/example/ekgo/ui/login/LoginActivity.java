@@ -1,4 +1,4 @@
-package com.example.splash.ui.login;
+package com.example.ekgo.ui.login;
 
 import android.app.Activity;
 
@@ -22,9 +22,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.splash.R;
-import com.example.splash.ui.login.LoginViewModel;
-import com.example.splash.ui.login.LoginViewModelFactory;
+import com.example.ekgo.R;
+import com.example.ekgo.ui.login.LoginViewModel;
+import com.example.ekgo.ui.login.LoginViewModelFactory;
 
 public class LoginActivity extends AppCompatActivity {
 

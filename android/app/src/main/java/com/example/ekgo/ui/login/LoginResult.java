@@ -1,4 +1,4 @@
-package com.example.splash.ui.login;
+package com.example.ekgo.ui.login;
 
 import androidx.annotation.Nullable;
 

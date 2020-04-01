@@ -1,4 +1,4 @@
-package com.example.splash.data;
+package com.example.ekgo.data;
 
 import com.example.splash.data.model.LoggedInUser;
 
