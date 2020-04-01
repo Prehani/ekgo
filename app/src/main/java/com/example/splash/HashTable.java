@@ -36,8 +36,7 @@ public class HashTable<K extends Comparable<K>, V> {
     // no argument constructor
     public HashTable() {
         hashTable = (HashTable<K, V>.Node[]) Array.newInstance(HashTable.Node.class, 1025);
-        // hashTable = (Node[]) new Object[1000];
-        maxLF = .75;
+        maxLF = .75; // default load factor of 75%
         keyNum = 0; // no keys in the table
         addrNum = 0; // no addresses filled yet
         addrDepth = new int[1025];
