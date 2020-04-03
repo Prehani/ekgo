@@ -14,6 +14,10 @@ public class LoginActivity extends AppCompatActivity {
 
     HashTable<String, String> loginList = new HashTable<>(); // table of usernames and passwords
     String userFail = "Incorrect Username or Password";
+    String nameLength = "Username must be at least 6 characters";
+    String passwordLength = "Password must be at least 6 characters";
+    String success = "Username and Password created";
+    String fail = "Unable to make given Username";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +29,22 @@ public class LoginActivity extends AppCompatActivity {
      * Click function for making a new account
      */
     public void clickNewAccount(View view) {
-
+        EditText usernameEntered = (EditText) findViewById(R.id.username);
+        String username = usernameEntered.getText().toString();
+        EditText passwordEntered = (EditText) findViewById(R.id.password);
+        String password = passwordEntered.getText().toString();
+        if (username.length() < 6) { // username must be 6 or more characters
+            Toast.makeText(this, nameLength, Toast.LENGTH_SHORT).show();
+        } else if (password.length() < 6) { // password must be 6 or more characters
+            Toast.makeText(this, passwordLength, Toast.LENGTH_SHORT).show();
+        } else {
+            try {
+                loginList.insert(username, password);
+                Toast.makeText(this, success, Toast.LENGTH_SHORT).show();
+            } catch(Exception e) {
+                Toast.makeText(this, fail, Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 
     /**
@@ -43,13 +62,13 @@ public class LoginActivity extends AppCompatActivity {
             // user name and password correct
             if (loginList.get(username).equals(password)) {
                 // load the users information
-            } else {
+                // make a new activity that loads a users info
+            } else { // happens when key present, but password incorrect
                 // display that the user had an incorrect username or password
                 Toast.makeText(this, userFail, Toast.LENGTH_SHORT).show();
             }
 
-        } catch (Exception e) { // error thrown during username/password lookup
-            // display that the user had an incorrect username or password
+        } catch (Exception e) { // error thrown due to username not existing
             Toast.makeText(this, userFail, Toast.LENGTH_SHORT).show();
         }
 
