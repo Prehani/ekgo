@@ -163,6 +163,16 @@ public class HashTable<K extends Comparable<K>, V> {
         }
     }
 
+    // returns true if hashtable contains the key, false otherwise
+    public boolean contains(K key) {
+        try {
+            this.get(key);
+            return true; // no exceptions finding key, key exists
+        } catch (Exception e) {
+            return false; // exception thrown, so no key found
+        }
+    }
+
     // If key is found,
     // remove the key,value pair from the data structure
     // decrease number of keys.

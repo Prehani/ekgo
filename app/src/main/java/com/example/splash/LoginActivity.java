@@ -18,6 +18,7 @@ public class LoginActivity extends AppCompatActivity {
     String passwordLength = "Password must be at least 6 characters";
     String success = "Username and Password created";
     String fail = "Unable to make given Username";
+    String fail2 = "Username already exists";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, nameLength, Toast.LENGTH_SHORT).show();
         } else if (password.length() < 6) { // password must be 6 or more characters
             Toast.makeText(this, passwordLength, Toast.LENGTH_SHORT).show();
+        } else if (loginList.contains(username)) { // username already exists
+            Toast.makeText(this, fail2, Toast.LENGTH_SHORT).show();
         } else {
             try {
                 loginList.insert(username, password);
@@ -61,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         try {
             // user name and password correct
             if (loginList.get(username).equals(password)) {
+                Toast.makeText(this, "worked correctly", Toast.LENGTH_SHORT).show();
                 // load the users information
                 // make a new activity that loads a users info
             } else { // happens when key present, but password incorrect
