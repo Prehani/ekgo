@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/createPatient"
+        android:title="Create Patient"
+        />
+
+    <item
+        android:id="@+id/editPatient"
+        android:title="Edit Patient"
+        />
+
+    <item
+        android:id="@+id/deletePatient"
+        android:title="Delete Patient"
+        />
+</menu>

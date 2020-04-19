@@ -1,4 +1,4 @@
-package com.example.ekgo;
+package ekgo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
