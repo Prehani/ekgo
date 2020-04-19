@@ -1,24 +1,23 @@
 package ekgo;
 
 import android.os.Bundle;
-import android.util.DisplayMetrics;
+import android.text.style.TtsSpan;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.graphics.Rect;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
-import org.w3c.dom.Text;
+import java.util.Date;
 
 import ekgo.patient.PatientData;
+import ekgo.patient.PatientInterfaceService;
 
 public class PatientDataFragment extends Fragment {
 
@@ -73,20 +72,20 @@ public class PatientDataFragment extends Fragment {
         inflater.inflate(R.menu.patient_data_menu, menu);
     }
 
-    //TODO: build out options menu stuff
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()) {
             case R.id.createPatient:
-                createPatientInfoWindow();
-                return true;
-
             case R.id.editPatient:
-                createPatientInfoWindow();
+                createPatientInfoWindow(patient);
                 return true;
 
             case R.id.deletePatient:
                 //TODO: delete patient from database then update patientlist
+                // Best to send signal back to mainActivity that patient is kill
+                // Where were you when patient is kill
+                // PatientDataFragment: 'patient is die'
+                // MainActivity: 'no'
                 return true;
 
             default:
@@ -94,21 +93,46 @@ public class PatientDataFragment extends Fragment {
         }
     }
 
-    private void createPatientInfoWindow(){
+    private void createPatientInfoWindow(final PatientData patient){
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),
                 R.style.CustomAlertDialog);
         ViewGroup viewGroup = view.findViewById(R.id.content);
-        View dialogView = LayoutInflater.from(view.getContext()).inflate(R.layout.edit_patient_dialog, viewGroup, false);
+        final View dialogView = LayoutInflater.from(view.getContext()).inflate(R.layout.edit_patient_dialog, viewGroup, false);
+
+        final TextView dateForm = (TextView) dialogView.findViewById(R.id.dob);
+        final TextView heightForm = (TextView) dialogView.findViewById(R.id.height);
+        final TextView weightForm = (TextView) dialogView.findViewById(R.id.weight);
+        final TextView medicationsForm = (TextView) dialogView.findViewById(R.id.medications);
+        final TextView conditionsForm = (TextView) dialogView.findViewById(R.id.conditions);
+        final TextView notesForm = (TextView) dialogView.findViewById(R.id.notes);
+
+        // If the patient is nonempty (i.e. we are editing patient data), populate the forms
+        if(patient != null) {
+            dateForm.setText(patient.getDob().toString()); // DOB
+            heightForm.setText(patient.getHeight()); // Height
+            weightForm.setText(patient.getWeight()); // Weight
+            medicationsForm.setText(patient.getMedications()); // Medications
+            conditionsForm.setText(patient.getConditions()); // Conditions
+            notesForm.setText(patient.getNotes()); // Notes
+        }
+
         builder.setView(dialogView);
 
-        //TODO: fill in patient data
         final AlertDialog alertDialog = builder.create();
 
         Button buttonOk=dialogView.findViewById(R.id.saveButton);
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO: save/update patient data
+                patient.setDob(new Date(dateForm.getText().toString()));
+                patient.setHeight(Integer.parseInt(heightForm.getText().toString()));
+                patient.setWeight(Integer.parseInt(weightForm.getText().toString()));
+                patient.setMedications(medicationsForm.getText().toString());
+                patient.setConditions(conditionsForm.getText().toString());
+                patient.setNotes(notesForm.getText().toString());
+
+                // TODO: send signal to actually save patient data
+
                 alertDialog.dismiss();
             }
         });
