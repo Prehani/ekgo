@@ -64,5 +64,12 @@ public class PatientData {
 
     public void setNotes(String notes) { this.notes = notes; }
 
-    //TODO: write patient to DB
+    public void update(PatientData other) {
+        this.id = other.getId();
+        this.weight = other.getWeight();
+        this.height = other.getHeight();
+        this.conditions = other.getConditions();
+        this.medications = other.getMedications();
+        this.notes = other.getNotes();
+    }
 }

@@ -1,5 +1,7 @@
 package ekgo;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.style.TtsSpan;
@@ -11,14 +13,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
 import java.util.Date;
 
 import ekgo.patient.PatientData;
 import ekgo.patient.PatientInterfaceService;
+import ekgo.patient.PatientNotFoundException;
 
 public class PatientDataFragment extends Fragment {
 
@@ -82,13 +87,27 @@ public class PatientDataFragment extends Fragment {
                 return true;
 
             case R.id.deletePatient:
-                //TODO: delete patient from database then update patientlist
-                // Best to send signal back to mainActivity that patient is kill
-                // Where were you when patient is kill
-                // PatientDataFragment: 'patient is die'
-                // MainActivity: 'no'
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setMessage("Are you sure you want to delete this patient?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                PatientInterfaceService.LocalBinder pBinder = ((MainScreen) getActivity()).getpBinder();
+                                try {
+                                    pBinder.deletePatient(Integer.parseInt(patientId.getText().toString()));
+                                } catch(PatientNotFoundException e){
+                                    Toast toast = Toast.makeText(getContext(), "shit be broke yo", Toast.LENGTH_SHORT);
+                                    toast.show();
+                                }
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        });
+                builder.create().show();
 
-                //TODO: popup confirmation dialogue
+
                 return true;
 
             default:
@@ -141,4 +160,26 @@ public class PatientDataFragment extends Fragment {
         });
         alertDialog.show();
     }
+
+    private class DeletePatientDialogFragment extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage("Are you sure you want to delete this patient?")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // FIRE ZE MISSILES!
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User cancelled the dialog
+                        }
+                    });
+            // Create the AlertDialog object and return it
+            return builder.create();
+        }
+    }
+
 }

@@ -12,7 +12,26 @@ import ekgo.patient.PatientInterfaceService;
 
 public class MainScreen extends AppCompatActivity {
 
+    /**
+     * To use PatientInterfaceService:
+     *      Make calls to pBinder. Here's the API
+     *
+     *      void pBinder.addPatient(Date dob, int weight, int height, String medications,
+     *                          String conditions, String notes);
+     *             Adds a patient to the patient list
+     *
+     *      void pBinder.updatePatient(PatientData patient) throws PatientNotFoundException;
+     *             Updates the patient within the database. If the patientId is not found,
+     *             will throw a PatientNotFound error
+     *
+     *      void pBinder.deletePatient(int id) throws PatientNotFoundException;
+     *             Deletes patient with given id from the database
+     *
+     *      ArrayList<PatientData> pBinder.getPatients();
+     *             Gets the list of patients
+     */
     private PatientInterfaceService pService;
+    private PatientInterfaceService.LocalBinder pBinder;
     private String username;
     private Boolean pBound;
 
@@ -42,6 +61,11 @@ public class MainScreen extends AppCompatActivity {
         pBound = false;
     }
 
+    public PatientInterfaceService.LocalBinder getpBinder() {
+        if(pBound) return pBinder;
+        return null;
+    }
+
     /** Defines callbacks for service binding, passed to bindService() */
     private ServiceConnection connection = new ServiceConnection() {
 
@@ -49,8 +73,8 @@ public class MainScreen extends AppCompatActivity {
         public void onServiceConnected(ComponentName className,
                                        IBinder service) {
             // We've bound to LocalService, cast the IBinder and get LocalService instance
-            PatientInterfaceService.LocalBinder binder = (PatientInterfaceService.LocalBinder) service;
-            pService = binder.getService();
+            pBinder = (PatientInterfaceService.LocalBinder) service;
+            pService = pBinder.getService();
             pBound = true;
         }
 
@@ -59,7 +83,4 @@ public class MainScreen extends AppCompatActivity {
             pBound = false;
         }
     };
-
-    //TODO: add interface for database stuff
-
 }

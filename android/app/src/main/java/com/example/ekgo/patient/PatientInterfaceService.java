@@ -39,15 +39,12 @@ public class PatientInterfaceService extends IntentService {
         return binder;
     }
 
-    public class LocalBinder extends Binder {
-        public PatientInterfaceService getService() {
-            return PatientInterfaceService.this;
-        }
-    }
 
-    public ArrayList<PatientData> getPatients() { return this.patients; }
 
-    public void addPatient(Date dob, int weight, int height, String medications,
+
+    private ArrayList<PatientData> getPatients() { return this.patients; }
+
+    private void addPatient(Date dob, int weight, int height, String medications,
                            String conditions, String notes) {
         // TODO: better patient ID assignment
         PatientData patient = new PatientData(patients.size()+1, dob, weight, height, medications,
@@ -59,7 +56,30 @@ public class PatientInterfaceService extends IntentService {
         patientDBHelper.savePatient(this.username, patient);
     }
 
-    public void updateDB() {
+    private void updatePatient(PatientData patient) throws PatientNotFoundException {
+        for(PatientData p : patients) {
+            if(p.getId() == patient.getId()) {
+                p.update(patient);
+                updateDB();
+                return;
+            }
+        }
+        throw new PatientNotFoundException("Patient with ID" + patient.getId()
+                + " not found in database");
+    }
+
+    private void deletePatient(int id) throws PatientNotFoundException {
+        for(int i = 0; i < patients.size(); i++) {
+            if(patients.get(i).getId() == id) {
+                patients.remove(i);
+                updateDB();
+                return;
+            }
+        }
+        throw new PatientNotFoundException("Patient with ID" + id + " not fonud in database");
+    }
+
+    private void updateDB() {
         PatientDBHelper patientDBHelper = getPatientDBHelper();
 
         for(PatientData patient : this.patients) {
@@ -67,11 +87,35 @@ public class PatientInterfaceService extends IntentService {
         }
     }
 
-
     private PatientDBHelper getPatientDBHelper() {
         Context context = getApplicationContext();
         SQLiteDatabase patientDB = context.openOrCreateDatabase("patients", Context.MODE_PRIVATE, null);
         return new PatientDBHelper(patientDB);
     }
 
+
+    // The IBinder defining the interface to actually interact with the database
+    public class LocalBinder extends Binder {
+        public PatientInterfaceService getService() {
+            return PatientInterfaceService.this;
+        }
+
+        public void addPatient(Date dob, int weight, int height, String medications,
+                               String conditions, String notes) {
+            PatientInterfaceService.this.addPatient(dob, weight, height, medications,
+                    conditions, notes);
+        }
+
+        public void updatePatient(PatientData patient) throws PatientNotFoundException {
+            PatientInterfaceService.this.updatePatient(patient);
+        }
+
+        public void deletePatient(int id) throws PatientNotFoundException {
+            PatientInterfaceService.this.deletePatient(id);
+        }
+
+        public ArrayList<PatientData> getPatients() {
+            return PatientInterfaceService.this.getPatients();
+        }
+    }
 }
