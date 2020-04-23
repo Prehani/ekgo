@@ -1,4 +1,4 @@
-package com.example.ekgo;
+package ekgo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -6,7 +6,11 @@ import android.os.Bundle;
 import android.content.Intent;
 import android.os.CountDownTimer;
 
+import ekgo.patient.PatientInterfaceService;
+
 public class MainActivity extends AppCompatActivity {
+
+    private PatientInterfaceService patientInterfaceService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,4 +36,6 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
+
+    //TODO: build interface to access PatientInterfaceService from within fragments
 }

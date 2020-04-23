@@ -9,5 +9,5 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service android:name=".patient.PatientInterfaceService"/>
-    </application>>
+    </application>
 </manifest>

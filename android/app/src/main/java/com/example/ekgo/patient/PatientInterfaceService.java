@@ -5,27 +5,44 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Binder;
 import android.os.IBinder;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-public class PatientInterfaceService extends Service {
+public class PatientInterfaceService extends IntentService {
+
+    private final IBinder binder = new LocalBinder();
+
 
     private ArrayList<PatientData> patients;
     private String username;
 
+    public PatientInterfaceService() {
+        super("PatientInterfaceService");
+    }
+
+
+    @Override
+    protected void onHandleIntent(Intent intent) {}
+
+
     @Override
     public IBinder onBind(Intent intent) {
-        //TODO: figure out how username is being passed around the application
         this.username = intent.getStringExtra("username");
 
         PatientDBHelper patientDBHelper = getPatientDBHelper();
 
-        //TODO: some kind of verification
         this.patients = patientDBHelper.readPatients(this.username);
 
-        return null;
+        return binder;
+    }
+
+    public class LocalBinder extends Binder {
+        public PatientInterfaceService getService() {
+            return PatientInterfaceService.this;
+        }
     }
 
     public ArrayList<PatientData> getPatients() { return this.patients; }

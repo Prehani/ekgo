@@ -1,8 +1,10 @@
-package com.example.ekgo;
+package ekgo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import ekgo.R;
 
 public class LoginActivity extends AppCompatActivity {
 
