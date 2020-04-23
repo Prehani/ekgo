@@ -19,6 +19,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 
+import java.io.Console;
 import java.util.Date;
 
 import ekgo.patient.PatientData;
@@ -36,13 +37,19 @@ public class PatientDataFragment extends Fragment {
     private TextView medications;
     private TextView conditions;
     private TextView notes;
-    PatientData patient;
+    private PatientData patient;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.patient_data, container, false);
 
+        updateDisplay();
+
+        return view;
+    }
+
+    private void updateDisplay() {
         patientId = (TextView) view.findViewById(R.id.patientID);
         dob = (TextView) view.findViewById(R.id.patientDOB);
         height = (TextView) view.findViewById(R.id.patientHeight);
@@ -68,9 +75,15 @@ public class PatientDataFragment extends Fragment {
             medications.setText("Medications: " + patient.getMedications());
             conditions.setText("Conditions: " + patient.getConditions());
             notes.setText("Additional Notes: " + patient.getNotes());
+        } else {
+            patientId.setText("Id:");
+            dob.setText("DOB:");
+            height.setText("Height:");
+            weight.setText("Weight:");
+            medications.setText("Medications:");
+            conditions.setText("Conditions:");
+            notes.setText("Additional Notes:");
         }
-
-        return view;
     }
 
     @Override
@@ -93,11 +106,13 @@ public class PatientDataFragment extends Fragment {
                             public void onClick(DialogInterface dialog, int id) {
                                 PatientInterfaceService.LocalBinder pBinder = ((MainScreen) getActivity()).getpBinder();
                                 try {
-                                    pBinder.deletePatient(Integer.parseInt(patientId.getText().toString()));
+                                    pBinder.deletePatient(patient.getId());
                                 } catch(PatientNotFoundException e){
                                     Toast toast = Toast.makeText(getContext(), "shit be broke yo", Toast.LENGTH_SHORT);
                                     toast.show();
                                 }
+                                patient = null;
+                                updateDisplay();
                             }
                         })
                         .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -153,33 +168,20 @@ public class PatientDataFragment extends Fragment {
                 patient.setConditions(conditionsForm.getText().toString());
                 patient.setNotes(notesForm.getText().toString());
 
-                // TODO: send signal to actually save patient data
+                PatientInterfaceService.LocalBinder pBinder = ((MainScreen) getActivity()).getpBinder();
+                try {
+                    pBinder.updatePatient(patient);
+                } catch(PatientNotFoundException e) {
+                    Toast toast = Toast.makeText(getContext(), "ope you did a bad thing", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+
+                updateDisplay();
 
                 alertDialog.dismiss();
             }
         });
         alertDialog.show();
-    }
-
-    private class DeletePatientDialogFragment extends DialogFragment {
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the Builder class for convenient dialog construction
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage("Are you sure you want to delete this patient?")
-                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // FIRE ZE MISSILES!
-                        }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            // User cancelled the dialog
-                        }
-                    });
-            // Create the AlertDialog object and return it
-            return builder.create();
-        }
     }
 
 }

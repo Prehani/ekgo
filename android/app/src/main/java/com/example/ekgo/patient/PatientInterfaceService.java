@@ -46,7 +46,6 @@ public class PatientInterfaceService extends IntentService {
 
     private void addPatient(Date dob, int weight, int height, String medications,
                            String conditions, String notes) {
-        // TODO: better patient ID assignment
         PatientData patient = new PatientData(patients.size()+1, dob, weight, height, medications,
                 conditions, notes);
         this.patients.add(patient);

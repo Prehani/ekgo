@@ -30,6 +30,9 @@ public class MainScreen extends AppCompatActivity {
      *      ArrayList<PatientData> pBinder.getPatients();
      *             Gets the list of patients
      */
+    //TODO: everytime there is an update to patient data, we will need to update the
+    //      display. We can accomplish this by setting a flag in the pBinder to be checked
+    //      for updates. Alternatively, we can somehow ping all fragments to actually update
     private PatientInterfaceService pService;
     private PatientInterfaceService.LocalBinder pBinder;
     private String username;
