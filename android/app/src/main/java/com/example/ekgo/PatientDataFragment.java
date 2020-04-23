@@ -1,5 +1,6 @@
 package ekgo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.style.TtsSpan;
 import android.view.LayoutInflater;
@@ -86,6 +87,8 @@ public class PatientDataFragment extends Fragment {
                 // Where were you when patient is kill
                 // PatientDataFragment: 'patient is die'
                 // MainActivity: 'no'
+
+                //TODO: popup confirmation dialogue
                 return true;
 
             default:

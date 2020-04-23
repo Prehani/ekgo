@@ -3,8 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ekgo.PatientDataFragment">
+    tools:context="ekgo.PatientDataFragment">
 
+    <!--TODO: mess with the sizes here so that it's not so poorly designed
+              probably gonna need to do this programatically in order to figure out
+              what system we're using-->
     <TextView
         android:id="@+id/patientID"
         android:layout_width="wrap_content"
