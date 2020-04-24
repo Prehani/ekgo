@@ -38,6 +38,24 @@ public class MainScreen extends AppCompatActivity {
     private String username;
     private Boolean pBound;
 
+    // fields required for patientList fragment
+    private ListView patientListFragment;
+    private ArrayAdapter<String> adapter;
+    private String[] patientNames = { "Michael Lambrecht\n Height: 6'0\"\n Medication: None",
+            "Eli Schlossberg",
+            "Kellie Stein",
+            "Peter Rehani",
+            "John Doe",
+            "David Williams",
+            "Chris Donald",
+            "Jim Werth",
+            "Maria Johns",
+            "a",
+            "b",
+            "c",
+            "d"
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +73,29 @@ public class MainScreen extends AppCompatActivity {
         Intent intent = new Intent(this, PatientInterfaceService.class);
         intent.putExtra("username", username);
         bindService(intent, connection, getApplicationContext().BIND_AUTO_CREATE);
+
+        // adds the patient list fragment to this activity the activity
+        patientListFragment = (ListView) findViewById(R.id.list_view);
+        patientListFragment = (ListView) findViewById(R.id.display);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, patientNames);
+        patientListFragment.setAdapter(adapter);
+        patientListFragment.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) + " will be sent to next fragment", Toast.LENGTH_LONG).show();
+            }
+        });
+        loadFragment(new PatientListFragment());
+    }
+
+    private void loadFragment(Fragment fragment) {
+        // create a FragmentManager
+        FragmentManager fm = getFragmentManager();
+        // create a FragmentTransaction to begin the transaction and replace the Fragment
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
+        // replace the FrameLayout with new Fragment
+        fragmentTransaction.replace(R.id.frameLayout, fragment);
+        fragmentTransaction.commit(); // save the changes
     }
 
     @Override
