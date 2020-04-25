@@ -1,6 +1,7 @@
-package com.example.ekgo.data;
+package ekgo.data;
 
-import com.example.splash.data.model.LoggedInUser;
+import ekgo.data.LoggedInUser;
+import ekgo.data.Result;
 
 /**
  * Class that requests authentication and user information from the remote data source and

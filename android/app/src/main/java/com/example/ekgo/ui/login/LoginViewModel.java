@@ -1,4 +1,4 @@
-package com.example.ekgo.ui.login;
+package ekgo.ui.login;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel;
 
 import android.util.Patterns;
 
-import com.example.ekgo.data.LoginRepository;
-import com.example.ekgo.data.Result;
-import com.example.ekgo.data.LoggedInUser;
-import com.example.ekgo.R;
+import ekgo.data.LoginRepository;
+import ekgo.data.Result;
+import ekgo.data.LoggedInUser;
+import ekgo.R;
 
 public class LoginViewModel extends ViewModel {
 
@@ -17,21 +17,21 @@ public class LoginViewModel extends ViewModel {
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
     private LoginRepository loginRepository;
 
-    LoginViewModel(LoginRepository loginRepository) {
+    public LoginViewModel(LoginRepository loginRepository) {
         this.loginRepository = loginRepository;
     }
 
-    LiveData<LoginFormState> getLoginFormState() {
+    public LiveData<LoginFormState> getLoginFormState() {
         return loginFormState;
     }
 
-    LiveData<LoginResult> getLoginResult() {
+    public LiveData<LoginResult> getLoginResult() {
         return loginResult;
     }
 
     public void login(String username, String password) {
         // can be launched in a separate asynchronous job
-        Result<com.example.splash.data.model.LoggedInUser> result = loginRepository.login(username, password);
+        Result<LoggedInUser> result = loginRepository.login(username, password);
 
         if (result instanceof Result.Success) {
             LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();

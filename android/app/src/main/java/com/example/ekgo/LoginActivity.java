@@ -21,10 +21,14 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.Fragment;
 
-import com.example.splash.R;
-import com.example.splash.ui.login.LoginViewModel;
-import com.example.splash.ui.login.LoginViewModelFactory;
+import ekgo.R;
+import ekgo.ui.login.LoginViewModel;
+import ekgo.ui.login.LoginViewModelFactory;
+import ekgo.ui.login.LoginFormState;
+import ekgo.ui.login.LoginResult;
+import ekgo.ui.login.LoggedInUserView;
 
 public class LoginActivity extends AppCompatActivity {
 

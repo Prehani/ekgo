@@ -1,11 +1,11 @@
-package com.example.ekgo.ui.login;
+package ekgo.ui.login;
 
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.annotation.NonNull;
 
-import com.example.ekgo.data.LoginDataSource;
-import com.example.ekgo.data.LoginRepository;
+import ekgo.data.LoginDataSource;
+import ekgo.data.LoginRepository;
 
 /**
  * ViewModel provider factory to instantiate LoginViewModel.

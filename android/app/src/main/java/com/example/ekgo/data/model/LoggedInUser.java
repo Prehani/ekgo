@@ -1,4 +1,4 @@
-package com.example.splash.data.model;
+package ekgo.data.model;
 
 /**
  * Data class that captures user information for logged in users retrieved from LoginRepository
