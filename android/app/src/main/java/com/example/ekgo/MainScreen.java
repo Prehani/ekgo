@@ -16,6 +16,9 @@ import android.app.FragmentTransaction;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
+
+import ekgo.patient.PatientData;
 import ekgo.patient.PatientInterfaceService;
 
 public class MainScreen extends AppCompatActivity {
@@ -49,20 +52,8 @@ public class MainScreen extends AppCompatActivity {
     // fields required for patientList fragment
     private ListView patientListFragment;
     private ArrayAdapter<String> adapter;
-    private String[] patientNames = { "Michael Lambrecht\n Height: 6'0\"\n Medication: None",
-            "Eli Schlossberg",
-            "Kellie Stein",
-            "Peter Rehani",
-            "John Doe",
-            "David Williams",
-            "Chris Donald",
-            "Jim Werth",
-            "Maria Johns",
-            "a",
-            "b",
-            "c",
-            "d"
-    };
+    private ArrayList<PatientData> pData = pBinder.getPatients();
+    private String[] patientNames = new String[pData.size()];
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +74,11 @@ public class MainScreen extends AppCompatActivity {
         bindService(intent, connection, getApplicationContext().BIND_AUTO_CREATE);
 
         // adds the patient list fragment to this activity the activity
-        patientListFragment = (ListView) findViewById(R.id.list_view);
+        //patientListFragment = (ListView) findViewById(R.id.list_view);
+        for (int i = 0; i < pData.size(); i++) {
+            patientNames[i] = pData.get(i).toString();
+        }
+
         patientListFragment = (ListView) findViewById(R.id.display);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, patientNames);
         patientListFragment.setAdapter(adapter);
