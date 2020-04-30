@@ -48,6 +48,7 @@ public class MainScreen extends AppCompatActivity {
     private PatientInterfaceService.LocalBinder pBinder;
     private String username;
     private Boolean pBound;
+    private Thread t;
 
     // fields required for patientList fragment
     private ListView patientListFragment;
@@ -68,10 +69,15 @@ public class MainScreen extends AppCompatActivity {
     public void onStart() {
         super.onStart();
 
-        // Bind PatientInterfaceService to this activity
-        Intent intent = new Intent(this, PatientInterfaceService.class);
-        intent.putExtra("username", username);
-        bindService(intent, connection, getApplicationContext().BIND_AUTO_CREATE);
+        // Bind PatientInterfaceService to this activity in new thread
+        t = new Thread() {
+            public void run() {
+                Intent intent = new Intent(MainScreen.this, PatientInterfaceService.class);
+                intent.putExtra("username", username);
+
+                bindService(intent, connection, getApplicationContext().BIND_AUTO_CREATE);
+            }
+        };
 
         // adds the patient list fragment to this activity the activity
         //patientListFragment = (ListView) findViewById(R.id.list_view);
@@ -106,6 +112,7 @@ public class MainScreen extends AppCompatActivity {
         super.onStop();
         unbindService(connection);
         pBound = false;
+        t.stop();
     }
 
     public PatientInterfaceService.LocalBinder getpBinder() {
