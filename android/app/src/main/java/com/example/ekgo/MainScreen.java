@@ -1,5 +1,6 @@
 package ekgo;
 
+import android.app.DatePickerDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,6 +18,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +33,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import ekgo.patient.PatientData;
 import ekgo.patient.PatientInterfaceService;
@@ -182,6 +187,10 @@ public class MainScreen extends AppCompatActivity {
         final AlertDialog.Builder builder = new AlertDialog.Builder(MainScreen.this,
                 R.style.CustomAlertDialog);
         ViewGroup viewGroup = findViewById(R.id.content);
+
+
+
+
         final View dialogView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.edit_patient_dialog, viewGroup, false);
 
         final TextView nameForm = (TextView) dialogView.findViewById(R.id.name);
@@ -191,6 +200,33 @@ public class MainScreen extends AppCompatActivity {
         final TextView medicationsForm = (TextView) dialogView.findViewById(R.id.medications);
         final TextView conditionsForm = (TextView) dialogView.findViewById(R.id.conditions);
         final TextView notesForm = (TextView) dialogView.findViewById(R.id.notes);
+
+        final Calendar myCalendar = Calendar.getInstance();
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+                // TODO Auto-generated method stub
+                myCalendar.set(Calendar.YEAR, year);
+                myCalendar.set(Calendar.MONTH, monthOfYear);
+                myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                updateLabel(dateForm, myCalendar);
+            }
+
+        };
+
+        dateForm.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                new DatePickerDialog(MainScreen.this, date, myCalendar
+                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         // If the patient is nonempty (i.e. we are editing patient data), populate the forms
         if (patient.isSet) {
@@ -242,6 +278,13 @@ public class MainScreen extends AppCompatActivity {
         });
 
         alertDialog.show();
+    }
+
+    private void updateLabel(TextView dateForm, Calendar myCalendar) {
+        String myFormat = "MM/dd/yy"; //In which you need put here
+        SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
+
+        dateForm.setText(sdf.format(myCalendar.getTime()));
     }
 
     private void updatePatientNames() {
