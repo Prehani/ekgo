@@ -10,6 +10,7 @@
         android:layout_width="250dp"
         android:layout_height="match_parent"
         android:id="@+id/patient_list"
+        android:background="@color/greyBlue"
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
