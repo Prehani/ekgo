@@ -89,7 +89,9 @@ public class PatientInterfaceService extends IntentService {
     private PatientDBHelper getPatientDBHelper() {
         Context context = getApplicationContext();
         SQLiteDatabase patientDB = context.openOrCreateDatabase("patients", Context.MODE_PRIVATE, null);
-        return new PatientDBHelper(patientDB);
+        PatientDBHelper patientDBHelper = new PatientDBHelper(patientDB);
+        patientDBHelper.createTable();
+        return patientDBHelper;
     }
 
 
@@ -105,6 +107,12 @@ public class PatientInterfaceService extends IntentService {
                     conditions, notes);
         }
 
+        public void addPatient(PatientData patient) {
+            PatientInterfaceService.this.addPatient(patient.getDob(), patient.getWeight(),
+                    patient.getHeight(), patient.getMedications(), patient.getConditions(),
+                    patient.getNotes());
+        }
+
         public void updatePatient(PatientData patient) throws PatientNotFoundException {
             PatientInterfaceService.this.updatePatient(patient);
         }
@@ -114,6 +122,7 @@ public class PatientInterfaceService extends IntentService {
         }
 
         public ArrayList<PatientData> getPatients() {
+            System.out.println("getting patients");
             return PatientInterfaceService.this.getPatients();
         }
     }

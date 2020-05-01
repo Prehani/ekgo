@@ -96,7 +96,7 @@ public class PatientDataFragment extends Fragment {
         switch(item.getItemId()) {
             case R.id.createPatient:
             case R.id.editPatient:
-                createPatientInfoWindow(patient);
+                ((MainScreen) getActivity()).createPatientInfoWindow(patient);
                 return true;
 
             case R.id.deletePatient:
@@ -129,59 +129,4 @@ public class PatientDataFragment extends Fragment {
                 return true;
         }
     }
-
-    private void createPatientInfoWindow(final PatientData patient){
-        final AlertDialog.Builder builder = new AlertDialog.Builder(getContext(),
-                R.style.CustomAlertDialog);
-        ViewGroup viewGroup = view.findViewById(R.id.content);
-        final View dialogView = LayoutInflater.from(view.getContext()).inflate(R.layout.edit_patient_dialog, viewGroup, false);
-
-        final TextView dateForm = (TextView) dialogView.findViewById(R.id.dob);
-        final TextView heightForm = (TextView) dialogView.findViewById(R.id.height);
-        final TextView weightForm = (TextView) dialogView.findViewById(R.id.weight);
-        final TextView medicationsForm = (TextView) dialogView.findViewById(R.id.medications);
-        final TextView conditionsForm = (TextView) dialogView.findViewById(R.id.conditions);
-        final TextView notesForm = (TextView) dialogView.findViewById(R.id.notes);
-
-        // If the patient is nonempty (i.e. we are editing patient data), populate the forms
-        if(patient != null) {
-            dateForm.setText(patient.getDob().toString()); // DOB
-            heightForm.setText(patient.getHeight()); // Height
-            weightForm.setText(patient.getWeight()); // Weight
-            medicationsForm.setText(patient.getMedications()); // Medications
-            conditionsForm.setText(patient.getConditions()); // Conditions
-            notesForm.setText(patient.getNotes()); // Notes
-        }
-
-        builder.setView(dialogView);
-
-        final AlertDialog alertDialog = builder.create();
-
-        Button buttonOk=dialogView.findViewById(R.id.saveButton);
-        buttonOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                patient.setDob(new Date(dateForm.getText().toString()));
-                patient.setHeight(Integer.parseInt(heightForm.getText().toString()));
-                patient.setWeight(Integer.parseInt(weightForm.getText().toString()));
-                patient.setMedications(medicationsForm.getText().toString());
-                patient.setConditions(conditionsForm.getText().toString());
-                patient.setNotes(notesForm.getText().toString());
-
-                PatientInterfaceService.LocalBinder pBinder = ((MainScreen) getActivity()).getpBinder();
-                try {
-                    pBinder.updatePatient(patient);
-                } catch(PatientNotFoundException e) {
-                    Toast toast = Toast.makeText(getContext(), "ope you did a bad thing", Toast.LENGTH_SHORT);
-                    toast.show();
-                }
-
-                updateDisplay();
-
-                alertDialog.dismiss();
-            }
-        });
-        alertDialog.show();
-    }
-
 }

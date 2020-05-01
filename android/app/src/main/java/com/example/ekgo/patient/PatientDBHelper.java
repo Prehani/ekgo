@@ -17,7 +17,7 @@ public class PatientDBHelper {
 
     public void createTable() {
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS patients" +
-                "(id INTEGER PRIMARY KEY, id INTEGER, dob TEXT, height INTEGER, weight INTEGER," +
+                "(username TEXT PRIMARY KEY, id INTEGER, dob TEXT, height INTEGER, weight INTEGER," +
                 "medications TEXT, conditions TEXT, notes TEXT)");
     }
 
@@ -63,9 +63,14 @@ public class PatientDBHelper {
 
     public void savePatient(String username, PatientData patient) {
         createTable();
-        sqLiteDatabase.execSQL(String.format("INSERT INTO patients (username, id, dob, height, weight, medications, conditions, notes) VALUES ('%s', '%s', '%s', '%s','%s','%s','%s')",
-                username, patient.getId(), patient.getDob().toString(), patient.getHeight(),
-                patient.getWeight(), patient.getMedications(), patient.getConditions(),
+        sqLiteDatabase.execSQL(String.format("INSERT INTO patients (username, id, dob, height, weight, medications, conditions, notes) VALUES ('%s', '%s', '%s', '%s','%s','%s','%s','%s')",
+                username,
+                patient.getId(),
+                patient.getDob().toString(),
+                patient.getHeight(),
+                patient.getWeight(),
+                patient.getMedications(),
+                patient.getConditions(),
                 patient.getNotes()));
     }
 

@@ -9,9 +9,10 @@ public class PatientData {
     private int height;
     private int weight;
     private int heartRate;
-    private String medications = "";
-    private String conditions = "";
-    private String notes = "";
+    private String medications = " ";
+    private String conditions = " ";
+    private String notes = " ";
+    public boolean isSet = false;
 
     public PatientData(int id, Date dob, int height, int weight, String medications,
                                    String conditions, String notes) {
@@ -23,6 +24,7 @@ public class PatientData {
         this.medications = medications;
         this.conditions = conditions;
         this.notes = notes;
+        this.isSet = true;
 
     }
 
@@ -31,7 +33,11 @@ public class PatientData {
         this.dob = dob;
         this.height = height;
         this.weight = weight;
+        this.isSet = true;
 
+    }
+
+    public PatientData() {
     }
 
     public int getId() { return this.id; }
