@@ -30,6 +30,7 @@ public class PatientDataFragment extends Fragment {
 
     private View view;
     private TextView patientId;
+    private TextView patientName;
     private TextView dob;
     private TextView height;
     private TextView weight;
@@ -56,6 +57,7 @@ public class PatientDataFragment extends Fragment {
 
     private void updateDisplay() {
         patientId = (TextView) view.findViewById(R.id.patientID);
+        patientName = (TextView) view.findViewById(R.id.patientName);
         dob = (TextView) view.findViewById(R.id.patientDOB);
         height = (TextView) view.findViewById(R.id.patientHeight);
         weight = (TextView) view.findViewById(R.id.patientWeight);
@@ -73,6 +75,7 @@ public class PatientDataFragment extends Fragment {
         } catch (NullPointerException e) {}
 
         if(patient != null) {
+            patientName.setText("Name: " + patient.getName());
             patientId.setText("Id: " + patient.getId());
             dob.setText("DOB: " + patient.getDob().toString());
             height.setText("Height: " + patient.getHeight());
@@ -82,6 +85,7 @@ public class PatientDataFragment extends Fragment {
             notes.setText("Additional Notes: " + patient.getNotes());
         } else {
             patientId.setText("Id:");
+            patientName.setText("Name: ");
             dob.setText("DOB:");
             height.setText("Height:");
             weight.setText("Weight:");

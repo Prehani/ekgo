@@ -44,9 +44,9 @@ public class PatientDBHelper {
             String name = c.getString(nameIndex);
             Date dob = null;
             try {
-                dob = new SimpleDateFormat("MM/dd/YYYY").parse(c.getString(dobIndex));
+                dob = new SimpleDateFormat("E MMM dd HH:mm:ss zzz YYYY").parse(c.getString(dobIndex));
             } catch (Exception e) {
-                Log.e("DateError", "Unable to parse patient DOB");
+                Log.e("DateError", "Unable to parse patient DOB " + c.getString(dobIndex));
             }
             int height = c.getInt(heightIndex);
             int weight = c.getInt(weightIndex);

@@ -71,7 +71,7 @@ public class MainScreen extends AppCompatActivity {
     private ArrayList<PatientData> pData;
     private ArrayList<String> patientNames = new ArrayList<String>();
 
-    private PatientData selectedPatient;
+    private int selectedPatientIndex = -1;
     private PatientDataFragment patientDataFragment = new PatientDataFragment();
 
     @Override
@@ -98,8 +98,8 @@ public class MainScreen extends AppCompatActivity {
         patientList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedPatient = (PatientData) parent.getItemAtPosition(position);
-
+                selectedPatientIndex = position;
+                patientDataFragment.changePatient(pData.get(selectedPatientIndex));
             }
         });
 
@@ -129,9 +129,20 @@ public class MainScreen extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.createPatient:
                 createPatientInfoWindow(new PatientData());
+                return true;
                 //TODO: finish this
             case R.id.editPatient:
+                if(selectedPatientIndex >= 0)
+                    createPatientInfoWindow(pData.get(selectedPatientIndex));
+                return true;
             case R.id.deletePatient:
+                if(selectedPatientIndex >= 0)
+                    try {
+                        pBinder.deletePatient(selectedPatientIndex);
+                    } catch (PatientNotFoundException e) {
+                        Toast.makeText(this, "No patient selected", Toast.LENGTH_SHORT).show();
+                    }
+                return true;
             default:
                 return true;
         }
@@ -213,6 +224,10 @@ public class MainScreen extends AppCompatActivity {
                             patient.getName());
                 }
                 adapter.notifyDataSetChanged();
+                selectedPatientIndex = patient.getId();
+
+                // Update the PatientDataFragment
+                patientDataFragment.changePatient(patient);
 
                 alertDialog.dismiss();
             }
