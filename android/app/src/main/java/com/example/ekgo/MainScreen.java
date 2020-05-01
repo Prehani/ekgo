@@ -93,7 +93,8 @@ public class MainScreen extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // TODO: make onItemClick populate patient data
-                Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) + " will be sent to next fragment", Toast.LENGTH_LONG).show();
+                onOptionsItemSelected((MenuItem) parent.getItemAtPosition(position));
+                //Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) + " will be sent to next fragment", Toast.LENGTH_LONG).show();
             }
         });
 
