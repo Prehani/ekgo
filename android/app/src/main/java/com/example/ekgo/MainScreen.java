@@ -56,9 +56,6 @@ public class MainScreen extends AppCompatActivity {
      *      ArrayList<PatientData> pBinder.getPatients();
      *             Gets the list of patients
      */
-    //TODO: everytime there is an update to patient data, we will need to update the
-    //      display. We can accomplish this by setting a flag in the pBinder to be checked
-    //      for updates. Alternatively, we can somehow ping all fragments to actually update
     private PatientInterfaceService pService;
     private PatientInterfaceService.LocalBinder pBinder;
     private String username;
@@ -88,8 +85,6 @@ public class MainScreen extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
-
-        //TODO: get the menu working
 
         patientList = (ListView) findViewById(R.id.patient_list);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, patientNames);
@@ -135,7 +130,6 @@ public class MainScreen extends AppCompatActivity {
             case R.id.createPatient:
                 createPatientInfoWindow(new PatientData());
                 return true;
-                //TODO: finish this
             case R.id.editPatient:
                 if(selectedPatientName != "") {
                     for(PatientData patient : pBinder.getPatients()) {
@@ -156,6 +150,9 @@ public class MainScreen extends AppCompatActivity {
                     } catch (PatientNotFoundException e) {
                         Toast.makeText(this, "No patient selected: " + selectedPatientName, Toast.LENGTH_SHORT).show();
                     }
+                return true;
+            case R.id.logout:
+                finish();
                 return true;
             default:
                 return true;
@@ -179,7 +176,6 @@ public class MainScreen extends AppCompatActivity {
         super.onStop();
         unbindService(connection);
         pBound = false;
-        t.stop();
     }
 
     public void createPatientInfoWindow(final PatientData patient) {
