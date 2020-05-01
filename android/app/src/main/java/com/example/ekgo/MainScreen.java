@@ -69,7 +69,7 @@ public class MainScreen extends AppCompatActivity {
     private ListView patientList;
     private ArrayAdapter<String> adapter;
     private ArrayList<PatientData> pData;
-    private String[] patientNames = new String[] {};
+    private ArrayList<String> patientNames = new ArrayList<String>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -197,7 +197,9 @@ public class MainScreen extends AppCompatActivity {
                     pBinder.updatePatient(patient);
                 } catch (PatientNotFoundException e) {
                     pBinder.addPatient(patient);
+                    patientNames.add(Integer.valueOf(patient.getId()).toString());
                 }
+                adapter.notifyDataSetChanged();
 
                 alertDialog.dismiss();
             }
@@ -226,9 +228,8 @@ public class MainScreen extends AppCompatActivity {
 
             // adds the patient list fragment to this activity the activity
             //patientListFragment = (ListView) findViewById(R.id.list_view);
-            patientNames = new String[pData.size()];
             for (int i = 0; i < pData.size(); i++) {
-                patientNames[i] = pData.get(i).toString();
+                patientNames.add(pData.get(i).toString());
             }
 
 

@@ -16,13 +16,14 @@ public class PatientDBHelper {
     }
 
     public void createTable() {
+        // TODO: delete this or we're gonna have a bad time
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS patients");
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS patients" +
                 "(username TEXT PRIMARY KEY, id INTEGER, dob TEXT, height INTEGER, weight INTEGER," +
                 "medications TEXT, conditions TEXT, notes TEXT)");
     }
 
     public ArrayList<PatientData> readPatients(String username) {
-        createTable();
         Cursor c = sqLiteDatabase.rawQuery(String.format("SELECT * from patients where username like '%s'", username), null);
 
         int idIndex = c.getColumnIndex("id");
@@ -62,7 +63,6 @@ public class PatientDBHelper {
     }
 
     public void savePatient(String username, PatientData patient) {
-        createTable();
         sqLiteDatabase.execSQL(String.format("INSERT INTO patients (username, id, dob, height, weight, medications, conditions, notes) VALUES ('%s', '%s', '%s', '%s','%s','%s','%s','%s')",
                 username,
                 patient.getId(),
@@ -75,7 +75,6 @@ public class PatientDBHelper {
     }
 
     public void updatePatient(PatientData patient) {
-        createTable();
         sqLiteDatabase.execSQL(String.format("UPDATE notes set dob = '%s', weight = '%s', height = '%s', medications = '%s', conditions = '%s', notes = '%s' where id ='%s'",
                 patient.getDob().toString(), patient.getWeight(), patient.getHeight(),
                 patient.getMedications(), patient.getConditions(), patient.getNotes(), patient.getId()));
