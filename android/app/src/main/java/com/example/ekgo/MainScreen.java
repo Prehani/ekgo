@@ -71,6 +71,9 @@ public class MainScreen extends AppCompatActivity {
     private ArrayList<PatientData> pData;
     private ArrayList<String> patientNames = new ArrayList<String>();
 
+    private PatientData selectedPatient;
+    private PatientDataFragment patientDataFragment = new PatientDataFragment();
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +81,9 @@ public class MainScreen extends AppCompatActivity {
 
         Intent intent = getIntent();
         username = intent.getStringExtra("Username");
+
+        // Load up PatientDataFragment
+        loadFragment(patientDataFragment);
     }
 
     @Override
@@ -92,9 +98,8 @@ public class MainScreen extends AppCompatActivity {
         patientList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // TODO: make onItemClick populate patient data
-                onOptionsItemSelected((MenuItem) parent.getItemAtPosition(position));
-                //Toast.makeText(getBaseContext(), parent.getItemAtPosition(position) + " will be sent to next fragment", Toast.LENGTH_LONG).show();
+                selectedPatient = (PatientData) parent.getItemAtPosition(position);
+
             }
         });
 
@@ -124,6 +129,9 @@ public class MainScreen extends AppCompatActivity {
         switch(item.getItemId()) {
             case R.id.createPatient:
                 createPatientInfoWindow(new PatientData());
+                //TODO: finish this
+            case R.id.editPatient:
+            case R.id.deletePatient:
             default:
                 return true;
         }
@@ -155,6 +163,7 @@ public class MainScreen extends AppCompatActivity {
         ViewGroup viewGroup = findViewById(R.id.content);
         final View dialogView = LayoutInflater.from(getApplicationContext()).inflate(R.layout.edit_patient_dialog, viewGroup, false);
 
+        final TextView nameForm = (TextView) dialogView.findViewById(R.id.name);
         final TextView dateForm = (TextView) dialogView.findViewById(R.id.dob);
         final TextView heightForm = (TextView) dialogView.findViewById(R.id.height);
         final TextView weightForm = (TextView) dialogView.findViewById(R.id.weight);
@@ -164,6 +173,7 @@ public class MainScreen extends AppCompatActivity {
 
         // If the patient is nonempty (i.e. we are editing patient data), populate the forms
         if (patient.isSet) {
+            nameForm.setText(patient.getName());
             dateForm.setText(patient.getDob().toString()); // DOB
             heightForm.setText(patient.getHeight()); // Height
             weightForm.setText(patient.getWeight()); // Weight
@@ -179,13 +189,15 @@ public class MainScreen extends AppCompatActivity {
         buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(dateForm.getText().toString() == "" ||
+                if( nameForm.getText() == "" ||
+                    dateForm.getText().toString() == "" ||
                     heightForm.getText().toString() == "" ||
                     weightForm.getText().toString() == "")
                     return;
                 try {
                     patient.setDob(new SimpleDateFormat("mm/dd/yyyy").parse((dateForm.getText().toString())));
                 } catch (ParseException e){}
+                patient.setName(nameForm.getText().toString());
                 patient.setHeight(Integer.parseInt(heightForm.getText().toString()));
                 patient.setWeight(Integer.parseInt(weightForm.getText().toString()));
                 patient.setMedications(medicationsForm.getText().toString());
@@ -197,7 +209,8 @@ public class MainScreen extends AppCompatActivity {
                     pBinder.updatePatient(patient);
                 } catch (PatientNotFoundException e) {
                     pBinder.addPatient(patient);
-                    patientNames.add(Integer.valueOf(patient.getId()).toString());
+                    patientNames.add(Integer.valueOf(patient.getId()).toString() + ": " +
+                            patient.getName());
                 }
                 adapter.notifyDataSetChanged();
 
@@ -229,7 +242,8 @@ public class MainScreen extends AppCompatActivity {
             // adds the patient list fragment to this activity the activity
             //patientListFragment = (ListView) findViewById(R.id.list_view);
             for (int i = 0; i < pData.size(); i++) {
-                patientNames.add(pData.get(i).toString());
+                patientNames.add(Integer.valueOf(pData.get(i).getId()).toString() + ": " +
+                        pData.get(i).getName());
             }
 
 

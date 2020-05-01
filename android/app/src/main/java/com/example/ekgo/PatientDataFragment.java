@@ -17,7 +17,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.DialogFragment;
-import androidx.fragment.app.Fragment;
+import android.app.Fragment;
 
 import java.io.Console;
 import java.util.Date;
@@ -47,6 +47,11 @@ public class PatientDataFragment extends Fragment {
         updateDisplay();
 
         return view;
+    }
+
+    public void changePatient(PatientData patient) {
+        this.patient = patient;
+        updateDisplay();
     }
 
     private void updateDisplay() {
@@ -83,50 +88,6 @@ public class PatientDataFragment extends Fragment {
             medications.setText("Medications:");
             conditions.setText("Conditions:");
             notes.setText("Additional Notes:");
-        }
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.patient_data_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.createPatient:
-            case R.id.editPatient:
-                ((MainScreen) getActivity()).createPatientInfoWindow(patient);
-                return true;
-
-            case R.id.deletePatient:
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setMessage("Are you sure you want to delete this patient?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                PatientInterfaceService.LocalBinder pBinder = ((MainScreen) getActivity()).getpBinder();
-                                try {
-                                    pBinder.deletePatient(patient.getId());
-                                } catch(PatientNotFoundException e){
-                                    Toast toast = Toast.makeText(getContext(), "shit be broke yo", Toast.LENGTH_SHORT);
-                                    toast.show();
-                                }
-                                patient = null;
-                                updateDisplay();
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // User cancelled the dialog
-                            }
-                        });
-                builder.create().show();
-
-
-                return true;
-
-            default:
-                return true;
         }
     }
 }

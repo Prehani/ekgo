@@ -4,6 +4,7 @@ import java.util.*;
 
 public class PatientData {
 
+    private String name;
     private int id;
     private Date dob;
     private int height;
@@ -14,10 +15,11 @@ public class PatientData {
     private String notes = " ";
     public boolean isSet = false;
 
-    public PatientData(int id, Date dob, int height, int weight, String medications,
+    public PatientData(int id, String name, Date dob, int height, int weight, String medications,
                                    String conditions, String notes) {
 
         this.id = id;
+        this.name = name;
         this.dob = dob;
         this.height = height;
         this.weight = weight;
@@ -40,6 +42,8 @@ public class PatientData {
     public PatientData() {
     }
 
+    public String getName() { return this.name; }
+
     public int getId() { return this.id; }
 
     public Date getDob() { return this.dob; }
@@ -57,6 +61,8 @@ public class PatientData {
     public String getNotes() { return this.notes; }
 
     public void setId(int id) { this.id = id; }
+
+    public void setName(String name) { this.name = name; }
 
     public void setDob(Date dob) { this.dob = dob; }
 

@@ -17,9 +17,9 @@ public class PatientDBHelper {
 
     public void createTable() {
         // TODO: delete this or we're gonna have a bad time
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS patients");
+        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS patients");
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS patients" +
-                "(username TEXT PRIMARY KEY, id INTEGER, dob TEXT, height INTEGER, weight INTEGER," +
+                "(username TEXT PRIMARY KEY, id INTEGER, name TEXT, dob TEXT, height INTEGER, weight INTEGER," +
                 "medications TEXT, conditions TEXT, notes TEXT)");
     }
 
@@ -27,6 +27,7 @@ public class PatientDBHelper {
         Cursor c = sqLiteDatabase.rawQuery(String.format("SELECT * from patients where username like '%s'", username), null);
 
         int idIndex = c.getColumnIndex("id");
+        int nameIndex = c.getColumnIndex("name");
         int dobIndex = c.getColumnIndex("dob");
         int heightIndex = c.getColumnIndex("height");
         int weightIndex = c.getColumnIndex("weight");
@@ -40,6 +41,7 @@ public class PatientDBHelper {
 
         while (!c.isAfterLast()) {
             int id = c.getInt(idIndex);
+            String name = c.getString(nameIndex);
             Date dob = null;
             try {
                 dob = new SimpleDateFormat("MM/dd/YYYY").parse(c.getString(dobIndex));
@@ -52,7 +54,7 @@ public class PatientDBHelper {
             String conditions = c.getString(conditionsIndex);
             String notes = c.getString(notesIndex);
 
-            PatientData note = new PatientData(id, dob, height, weight, medications, conditions, notes);
+            PatientData note = new PatientData(id, name, dob, height, weight, medications, conditions, notes);
             patientsList.add(note);
             c.moveToNext();
         }
@@ -63,9 +65,10 @@ public class PatientDBHelper {
     }
 
     public void savePatient(String username, PatientData patient) {
-        sqLiteDatabase.execSQL(String.format("INSERT INTO patients (username, id, dob, height, weight, medications, conditions, notes) VALUES ('%s', '%s', '%s', '%s','%s','%s','%s','%s')",
+        sqLiteDatabase.execSQL(String.format("INSERT INTO patients (username, id, name, dob, height, weight, medications, conditions, notes) VALUES ('%s', '%s', '%s', '%s', '%s','%s','%s','%s','%s')",
                 username,
                 patient.getId(),
+                patient.getName(),
                 patient.getDob().toString(),
                 patient.getHeight(),
                 patient.getWeight(),
@@ -75,8 +78,14 @@ public class PatientDBHelper {
     }
 
     public void updatePatient(PatientData patient) {
-        sqLiteDatabase.execSQL(String.format("UPDATE notes set dob = '%s', weight = '%s', height = '%s', medications = '%s', conditions = '%s', notes = '%s' where id ='%s'",
-                patient.getDob().toString(), patient.getWeight(), patient.getHeight(),
-                patient.getMedications(), patient.getConditions(), patient.getNotes(), patient.getId()));
+        sqLiteDatabase.execSQL(String.format("UPDATE notes set name = '%s', dob = '%s', weight = '%s', height = '%s', medications = '%s', conditions = '%s', notes = '%s' where id ='%s'",
+                patient.getName(),
+                patient.getDob().toString(),
+                patient.getWeight(),
+                patient.getHeight(),
+                patient.getMedications(),
+                patient.getConditions(),
+                patient.getNotes(),
+                patient.getId()));
     }
 }

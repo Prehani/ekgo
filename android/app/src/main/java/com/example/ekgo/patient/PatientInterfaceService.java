@@ -44,9 +44,9 @@ public class PatientInterfaceService extends IntentService {
 
     private ArrayList<PatientData> getPatients() { return this.patients; }
 
-    private void addPatient(Date dob, int weight, int height, String medications,
+    private void addPatient(String name, Date dob, int weight, int height, String medications,
                            String conditions, String notes) {
-        PatientData patient = new PatientData(patients.size()+1, dob, weight, height, medications,
+        PatientData patient = new PatientData(patients.size()+1, name, dob, weight, height, medications,
                 conditions, notes);
         this.patients.add(patient);
 
@@ -101,14 +101,14 @@ public class PatientInterfaceService extends IntentService {
             return PatientInterfaceService.this;
         }
 
-        public void addPatient(Date dob, int weight, int height, String medications,
+        public void addPatient(String name, Date dob, int weight, int height, String medications,
                                String conditions, String notes) {
-            PatientInterfaceService.this.addPatient(dob, weight, height, medications,
+            PatientInterfaceService.this.addPatient(name, dob, weight, height, medications,
                     conditions, notes);
         }
 
         public void addPatient(PatientData patient) {
-            PatientInterfaceService.this.addPatient(patient.getDob(), patient.getWeight(),
+            PatientInterfaceService.this.addPatient(patient.getName(), patient.getDob(), patient.getWeight(),
                     patient.getHeight(), patient.getMedications(), patient.getConditions(),
                     patient.getNotes());
         }

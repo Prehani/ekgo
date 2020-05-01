@@ -9,6 +9,16 @@
               probably gonna need to do this programatically in order to figure out
               what system we're using-->
     <TextView
+        android:id="@+id/patientName"
+        android:layout_width="wrap_content"
+        android:layout_toRightOf="@id/patientID"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="12dp"
+        android:text="" />
+
+    <TextView
         android:id="@+id/patientID"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -26,7 +36,7 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="8dp"
-        android:layout_toRightOf="@+id/patientID"
+        android:layout_toRightOf="@+id/patientName"
         android:text="" />
 
     <TextView
