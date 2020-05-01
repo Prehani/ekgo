@@ -17,7 +17,7 @@ public class PatientDBHelper {
 
     public void createTable() {
         // TODO: delete this or we're gonna have a bad time
-        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS patients");
+        // sqLiteDatabase.execSQL("DROP TABLE IF EXISTS patients");
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS patients" +
                 "(username TEXT, id INTEGER, name TEXT, dob TEXT, height INTEGER, weight INTEGER," +
                 "medications TEXT, conditions TEXT, notes TEXT)");

@@ -150,7 +150,7 @@ public class MainScreen extends AppCompatActivity {
                 if(selectedPatientName != "")
                     try {
                         pBinder.deletePatient(selectedPatientName);
-                        patientNames.remove(patientNames.indexOf(selectedPatientName));
+                        updatePatientNames();
                         patientDataFragment.changePatient(null);
                         adapter.notifyDataSetChanged();
                     } catch (PatientNotFoundException e) {
@@ -234,19 +234,28 @@ public class MainScreen extends AppCompatActivity {
                     pBinder.updatePatient(patient);
                 } catch (PatientNotFoundException e) {
                     pBinder.addPatient(patient);
-                    patientNames.add(patient.getName());
                 }
-                adapter.notifyDataSetChanged();
                 selectedPatientName = patient.getName();
 
                 // Update the PatientDataFragment
                 patientDataFragment.changePatient(patient);
 
                 alertDialog.dismiss();
+                updatePatientNames();
             }
         });
 
         alertDialog.show();
+    }
+
+    private void updatePatientNames() {
+        patientNames = new ArrayList<String>();
+        for(PatientData patient : pBinder.getPatients()) {
+            patientNames.add(patient.getName());
+        }
+        Log.i("patients", patientNames.toString());
+        adapter.clear();
+        adapter.addAll(patientNames);
     }
 
     public PatientInterfaceService.LocalBinder getpBinder() {
@@ -265,13 +274,7 @@ public class MainScreen extends AppCompatActivity {
             pService = pBinder.getService();
             pBound = true;
 
-            ArrayList<PatientData> pData = pBinder.getPatients();
-
-            // adds the patient list fragment to this activity the activity
-            //patientListFragment = (ListView) findViewById(R.id.list_view);
-            for (int i = 0; i < pData.size(); i++) {
-                patientNames.add(pData.get(i).getName());
-            }
+            updatePatientNames();
 
 
         }
