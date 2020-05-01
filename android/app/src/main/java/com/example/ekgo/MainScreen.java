@@ -63,6 +63,7 @@ public class MainScreen extends AppCompatActivity {
         setContentView(R.layout.main_screen);
 
         //TODO: set username based on whatever was passed from login activity
+        username = getIntent().getStringExtra("Username");
     }
 
     @Override
