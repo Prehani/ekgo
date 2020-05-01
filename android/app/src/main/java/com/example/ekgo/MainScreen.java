@@ -68,10 +68,9 @@ public class MainScreen extends AppCompatActivity {
     // fields required for patientList fragment
     private ListView patientList;
     private ArrayAdapter<String> adapter;
-    private ArrayList<PatientData> pData;
     private ArrayList<String> patientNames = new ArrayList<String>();
 
-    private int selectedPatientIndex = -1;
+    private String selectedPatientName = "";
     private PatientDataFragment patientDataFragment = new PatientDataFragment();
 
     @Override
@@ -98,8 +97,13 @@ public class MainScreen extends AppCompatActivity {
         patientList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                selectedPatientIndex = position;
-                patientDataFragment.changePatient(pData.get(selectedPatientIndex));
+                selectedPatientName = patientNames.get(position);
+                for(PatientData patient : pBinder.getPatients()) {
+                    if(patient.getName() == selectedPatientName) {
+                        patientDataFragment.changePatient(patient);
+                        break;
+                    }
+                }
             }
         });
 
@@ -126,21 +130,31 @@ public class MainScreen extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        //TODO: logout
         switch(item.getItemId()) {
             case R.id.createPatient:
                 createPatientInfoWindow(new PatientData());
                 return true;
                 //TODO: finish this
             case R.id.editPatient:
-                if(selectedPatientIndex >= 0)
-                    createPatientInfoWindow(pData.get(selectedPatientIndex));
+                if(selectedPatientName != "") {
+                    for(PatientData patient : pBinder.getPatients()) {
+                        if(patient.getName() == selectedPatientName) {
+                            createPatientInfoWindow(patient);
+                            break;
+                        }
+                    }
+                }
                 return true;
             case R.id.deletePatient:
-                if(selectedPatientIndex >= 0)
+                if(selectedPatientName != "")
                     try {
-                        pBinder.deletePatient(selectedPatientIndex);
+                        pBinder.deletePatient(selectedPatientName);
+                        patientNames.remove(patientNames.indexOf(selectedPatientName));
+                        patientDataFragment.changePatient(null);
+                        adapter.notifyDataSetChanged();
                     } catch (PatientNotFoundException e) {
-                        Toast.makeText(this, "No patient selected", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "No patient selected: " + selectedPatientName, Toast.LENGTH_SHORT).show();
                     }
                 return true;
             default:
@@ -220,11 +234,10 @@ public class MainScreen extends AppCompatActivity {
                     pBinder.updatePatient(patient);
                 } catch (PatientNotFoundException e) {
                     pBinder.addPatient(patient);
-                    patientNames.add(Integer.valueOf(patient.getId()).toString() + ": " +
-                            patient.getName());
+                    patientNames.add(patient.getName());
                 }
                 adapter.notifyDataSetChanged();
-                selectedPatientIndex = patient.getId();
+                selectedPatientName = patient.getName();
 
                 // Update the PatientDataFragment
                 patientDataFragment.changePatient(patient);
@@ -252,13 +265,12 @@ public class MainScreen extends AppCompatActivity {
             pService = pBinder.getService();
             pBound = true;
 
-            pData = pBinder.getPatients();
+            ArrayList<PatientData> pData = pBinder.getPatients();
 
             // adds the patient list fragment to this activity the activity
             //patientListFragment = (ListView) findViewById(R.id.list_view);
             for (int i = 0; i < pData.size(); i++) {
-                patientNames.add(Integer.valueOf(pData.get(i).getId()).toString() + ": " +
-                        pData.get(i).getName());
+                patientNames.add(pData.get(i).getName());
             }
 
 

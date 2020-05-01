@@ -17,9 +17,9 @@ public class PatientDBHelper {
 
     public void createTable() {
         // TODO: delete this or we're gonna have a bad time
-        //sqLiteDatabase.execSQL("DROP TABLE IF EXISTS patients");
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS patients");
         sqLiteDatabase.execSQL("CREATE TABLE IF NOT EXISTS patients" +
-                "(username TEXT PRIMARY KEY, id INTEGER, name TEXT, dob TEXT, height INTEGER, weight INTEGER," +
+                "(username TEXT, id INTEGER, name TEXT, dob TEXT, height INTEGER, weight INTEGER," +
                 "medications TEXT, conditions TEXT, notes TEXT)");
     }
 
@@ -77,8 +77,8 @@ public class PatientDBHelper {
                 patient.getNotes()));
     }
 
-    public void updatePatient(PatientData patient) {
-        sqLiteDatabase.execSQL(String.format("UPDATE notes set name = '%s', dob = '%s', weight = '%s', height = '%s', medications = '%s', conditions = '%s', notes = '%s' where id ='%s'",
+    public void updatePatient(String username, PatientData patient) {
+        sqLiteDatabase.execSQL(String.format("UPDATE patients set name = '%s', dob = '%s', weight = '%s', height = '%s', medications = '%s', conditions = '%s', notes = '%s' WHERE id ='%s' AND username='%s' ",
                 patient.getName(),
                 patient.getDob().toString(),
                 patient.getWeight(),
@@ -86,6 +86,7 @@ public class PatientDBHelper {
                 patient.getMedications(),
                 patient.getConditions(),
                 patient.getNotes(),
-                patient.getId()));
+                patient.getId(),
+                username));
     }
 }

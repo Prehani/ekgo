@@ -48,6 +48,7 @@ public class PatientInterfaceService extends IntentService {
                            String conditions, String notes) {
         PatientData patient = new PatientData(patients.size()+1, name, dob, weight, height, medications,
                 conditions, notes);
+        patient.setId(patients.size() + 1);
         this.patients.add(patient);
 
         // Saves new patient to DB
@@ -67,22 +68,22 @@ public class PatientInterfaceService extends IntentService {
                 + " not found in database");
     }
 
-    private void deletePatient(int id) throws PatientNotFoundException {
+    private void deletePatient(String name) throws PatientNotFoundException {
         for(int i = 0; i < patients.size(); i++) {
-            if(patients.get(i).getId() == id) {
+            if(patients.get(i).getName() == name) {
                 patients.remove(i);
                 updateDB();
                 return;
             }
         }
-        throw new PatientNotFoundException("Patient with ID" + id + " not fonud in database");
+        throw new PatientNotFoundException("Patient with Name " + name + " not found in database");
     }
 
     private void updateDB() {
         PatientDBHelper patientDBHelper = getPatientDBHelper();
 
         for(PatientData patient : this.patients) {
-            patientDBHelper.updatePatient(patient);
+            patientDBHelper.updatePatient(username, patient);
         }
     }
 
@@ -117,8 +118,8 @@ public class PatientInterfaceService extends IntentService {
             PatientInterfaceService.this.updatePatient(patient);
         }
 
-        public void deletePatient(int id) throws PatientNotFoundException {
-            PatientInterfaceService.this.deletePatient(id);
+        public void deletePatient(String name) throws PatientNotFoundException {
+            PatientInterfaceService.this.deletePatient(name);
         }
 
         public ArrayList<PatientData> getPatients() {
