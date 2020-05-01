@@ -200,8 +200,8 @@ public class MainScreen extends AppCompatActivity {
         if (patient.isSet) {
             nameForm.setText(patient.getName());
             dateForm.setText(patient.getDob().toString()); // DOB
-            heightForm.setText(patient.getHeight()); // Height
-            weightForm.setText(patient.getWeight()); // Weight
+            heightForm.setText(Integer.valueOf(patient.getHeight()).toString()); // Height
+            weightForm.setText(Integer.valueOf(patient.getWeight()).toString()); // Weight
             medicationsForm.setText(patient.getMedications()); // Medications
             conditionsForm.setText(patient.getConditions()); // Conditions
             notesForm.setText(patient.getNotes()); // Notes
