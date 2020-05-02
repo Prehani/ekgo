@@ -159,6 +159,10 @@ public class MainScreen extends AppCompatActivity {
             case R.id.logout:
                 finish();
                 return true;
+
+            case R.id.settings:
+                goToSettings();
+                return true;
             default:
                 return true;
         }
@@ -301,6 +305,12 @@ public class MainScreen extends AppCompatActivity {
         if(pBound) return pBinder;
         return null;
     }
+
+    public void goToSettings(){
+        Intent settings = new Intent (this, Settings.class);
+        startActivity(settings);
+    }
+
 
     /** Defines callbacks for service binding, passed to bindService() */
     private ServiceConnection connection = new ServiceConnection() {
