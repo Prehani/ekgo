@@ -20,9 +20,6 @@
         android:title="Logout" />
     <item
         android:id="@+id/settings"
-<<<<<<< HEAD
         android:title="Settings" />
-=======
-        android:title="Settings"/>
->>>>>>> 6a60bc9c887f45caa4e4ea16ee2a72dabfc4eb74
+
 </menu>

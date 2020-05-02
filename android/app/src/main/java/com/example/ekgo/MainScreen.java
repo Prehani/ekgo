@@ -307,9 +307,8 @@ public class MainScreen extends AppCompatActivity {
     public void goToSettings(){
         Intent settings = new Intent(this, Settings.class);
         startActivity(settings);
-
     }
-    
+
 
 
     /** Defines callbacks for service binding, passed to bindService() */
