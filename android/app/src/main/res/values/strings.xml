@@ -19,4 +19,10 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="title_activity_bluetooth_settings">BluetoothSettings</string>
+    <string name="title_activity_connect">ConnectActivity</string>
+
+    <string name="ble_not_supported">BLE is not supported</string>
+    <string name="send">SEND DATA</string>
+    <string name="read">Read</string>
+
 </resources>

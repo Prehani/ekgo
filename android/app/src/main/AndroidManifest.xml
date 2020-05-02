@@ -14,7 +14,12 @@ package="ekgo">
 
     <activity android:name=".LoginActivity" />
     <activity android:name=".MainScreen" />
-    <activity android:name=".Settings"/>
+    <activity android:name=".SettingsActivity"/>
+    <activity android:name=".ConnectActivityTest"
+        android:label="@string/title_activity_connect"
+        android:theme="@style/AppTheme.NoActionBar"
+        >
+    </activity>
     <activity
         android:name=".MainActivity"
         android:theme="@style/AppTheme.NoActionBar">
@@ -24,3 +29,4 @@ package="ekgo">
         </intent-filter>
     </activity>
 </application></manifest>
+
