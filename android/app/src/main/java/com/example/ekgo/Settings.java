@@ -41,10 +41,18 @@ public class Settings extends AppCompatActivity {
 
         //check if bluetooth is available or not
         if (mBlueAdapter == null){
-            mStatusBlueTv.setText("Bluetooth is not available");
+            showToast("Bluetooth is not available");
         }
         else {
-            mStatusBlueTv.setText("Bluetooth is available");
+            if (!mBlueAdapter.isEnabled()){
+                showToast("Turning On Bluetooth...");
+                //intent to on bluetooth
+                Intent intent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+                startActivityForResult(intent, REQUEST_ENABLE_BT);
+            }
+            else {
+                showToast("Bluetooth is already on");
+            }
         }
         //on btn click
         mOnBtn.setOnClickListener(new View.OnClickListener() {
