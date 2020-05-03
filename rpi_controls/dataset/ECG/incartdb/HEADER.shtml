@@ -1,0 +1,99 @@
+<!--#set var="TITLE" value="St.-Petersburg Institute of Cardiological Technics 12-lead Arrhythmia Database"-->
+<!--#set var="USELOCALCSS" value="1"-->
+<!--#include virtual="/head.shtml"-->
+
+<div class="notice">
+<p>
+<b>When referencing this material, please
+include the standard citation for PhysioNet:</b></p>
+
+<div class="reference">
+Goldberger AL, Amaral LAN, Glass L, Hausdorff JM, Ivanov PCh, Mark RG,
+Mietus JE, Moody GB, Peng C-K, Stanley HE.  PhysioBank, PhysioToolkit, and
+PhysioNet: Components of a New Research Resource for Complex Physiologic
+Signals.
+<i>Circulation</i> <b>101</b>(23):e215-e220 [Circulation Electronic Pages;
+<a href="http://circ.ahajournals.org/cgi/content/full/101/23/e215"
+target="other">http://circ.ahajournals.org/cgi/content/full/101/23/e215</a>];
+2000 (June 13).
+</div> <!-- end reference -->
+</div>
+
+<div class="outer2" ><div class="inner2" >
+<img src="/physiobank/charts/incartdb.png" alt="sample from Holter recording" style="width: 739.25px;">
+</div></div>
+
+<p>
+This database consists of 75 annotated recordings extracted from 32
+Holter records. Each record is 30 minutes long and contains 12
+standard leads, each sampled at 257 Hz, with gains varying from
+250 to 1100 analog-to-digital converter units per millivolt. Gains for
+each record are specified in its <tt>.hea</tt> file.  The reference
+annotation files contain over 175,000 beat annotations in all.</p>
+
+<p>
+The original records were collected from patients undergoing tests for
+coronary artery disease (17 men and 15 women, aged 18-80; mean age: 58).
+None of the patients had pacemakers;  most had ventricular ectopic beats.
+In selecting records to be included in the database, preference was
+given to subjects with ECGs consistent with ischemia, coronary artery
+disease, conduction abnormalities, and arrhythmias;  observations
+of those selected included:</p>
+
+<div class="edbtable">
+<table><tr><th><b>Diagnosis</b></th><th><b>Patients</b></th></tr>
+<tr><td>Acute MI</td><td>2</td></tr>
+<tr><td>Transient ischemic attack (angina pectoris)</td><td>5</td></tr>
+<tr><td>Prior MI</td><td>4</td></tr>
+<tr><td>Coronary artery disease with hypertension&nbsp;&nbsp;</td>
+    <td>7 (4 with ECGs consistent with left ventricular hypertrophy)</td></tr>
+<tr><td>Sinus node dysfunction</td><td>1</td></tr>
+<tr><td>Supraventricular ectopy</td><td>18</td></tr>
+<tr><td>Atrial fibrillation or SVTA</td><td>3 (2 with paroxysmal AF)</a>
+<tr><td>WPW</td><td>2</td></tr>
+<tr><td>AV block</td><td>1</td></tr>
+<tr><td>Bundle branch block</td><td>3</td></tr>
+</table>
+</div>
+
+<p>
+These diagnoses were confirmed by enzyme assays, coronary angiography,
+electrophysiological study, and pressure monitoring where necessary.
+For each record, the .hea file includes the patient's age, sex, diagnoses,
+and a summary of features of the ECG.  Each .hea file also includes a
+patient number (1&ndash;32) that identifies the source recording;  all records
+with a given patient number were obtained from the same Holter recording.
+For convenience, this information is also collected in the files
+<a href="record-descriptions.txt">record-descriptions.txt</a> and
+<a href="files-patients-diagnoses.txt">files-patients-diagnoses.txt</a>.</p>
+
+<p>
+The annotations were produced by an automatic algorithm and then
+corrected manually, following the
+<a href=/physiobank/annotations.shtml>standard PhysioBank beat annotation
+definitions</a>.  The algorithm generally places beat annotations in the middle
+of the QRS complex (as determined from all 12 leads);  the locations have not
+been manually corrected, however, and there may be occasional misaligned
+annotations as a result.</p>
+
+<p>
+This database was contributed by the St. Petersburg Institute of
+Cardiological Technics (<a href=http://www.incart.ru
+target="other">Incart</a>), St. Petersburg, Russia.  The database was
+initially developed by Viktor Tihonenko
+(<a href=mailto:vmt@incart.ru>vmt@incart.ru</a>) and Alexander
+Khaustov (<a href=mailto:avk@incart.ru>avk@incart.ru</a>).  Additional
+verification was done by Sergey Ivanov and Alexei Rivin (Incart).
+Please refer questions and corrections
+to Evgeniy Yakushenko <a href=mailto:yes@incart.ru>yes@incart.ru</a>.</p>
+
+<h3>Version history</h3>
+<dl>
+<dt>September 18, 2015:</dt>
+<dd>
+  The header files have been updated to include the correct checksums
+  and initial values for all signals.  The signals and annotations
+  have not been altered.
+</dd>
+</dl>
+
