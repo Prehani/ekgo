@@ -72,7 +72,9 @@ public class PatientInterfaceService extends IntentService {
         for(int i = 0; i < patients.size(); i++) {
             if(patients.get(i).getName() == name) {
                 patients.remove(i);
-                updateDB();
+
+                PatientDBHelper patientDBHelper = getPatientDBHelper();
+                patientDBHelper.deletePatient(username, name);
                 return;
             }
         }

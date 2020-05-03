@@ -89,4 +89,10 @@ public class PatientDBHelper {
                 patient.getId(),
                 username));
     }
+
+    public void deletePatient(String username, String patientName) {
+        sqLiteDatabase.execSQL(String.format("DELETE FROM patients WHERE username = '%s' AND name = '%s'",
+                username,
+                patientName));
+    }
 }
