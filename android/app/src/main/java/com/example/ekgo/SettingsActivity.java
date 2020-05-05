@@ -1,5 +1,5 @@
 package ekgo;
-
+/*
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -207,7 +207,7 @@ public class SettingsActivity extends AppCompatActivity
         myLabel.setText("Bluetooth Closed");
     }
 }
-/*
+*/
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
@@ -348,4 +348,4 @@ SettingsActivity extends AppCompatActivity {
     }
 }
 
- */
+
